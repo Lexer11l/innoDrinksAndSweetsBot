@@ -25,7 +25,6 @@ public class JopaChlen extends TelegramLongPollingBot {
             e.printStackTrace();
         }
         System.out.println("V");
-        while (true){}
     }
 
     @Override
