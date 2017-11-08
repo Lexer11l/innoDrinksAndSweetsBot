@@ -1,6 +1,4 @@
-/**
- * Created by Kirill on 03.11.2017.
- */
+package bot;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -19,12 +17,14 @@ public class JopaChlen extends TelegramLongPollingBot {
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(new JopaChlen());
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-        System.out.println("V");
+        System.out.println("HEROKU!");
+
+        //try {
+			//telegramBotsApi.registerBot(new JopaChlen());
+        //} catch (TelegramApiException e) {
+          //  e.printStackTrace();
+        //}
+        //System.out.println("V");
     }
 
     @Override
