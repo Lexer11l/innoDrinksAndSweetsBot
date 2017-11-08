@@ -48,6 +48,33 @@ public class DrinkBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
+
+        if (update != null && update.hasCallbackQuery()) {
+            switch(update.getCallbackQuery().getData()){
+                case "/help":
+                    sendMsg(message, "Привет, я робот");
+                    break;
+                case PRIVET:
+                    sendMsg(message, "Привет!");
+                    break;
+                case HOW_ARE_YOU:
+                    sendMsg(message, "Норм, сам как?");
+                    break;
+                case WHAT_ARE_YOU_DOING:
+                    sendMsg(message, "Ботирую");
+                    break;
+                case SHARE_NUMBERS:
+                    sendMsg(message, "Нет!");
+                    break;
+                case BYE:
+                    sendMsg(message, "Пока!");
+                    break;
+                default:
+                    sendMsg(message, "Я не знаю что ответить на это");
+                    break;
+            }
+        }
+
         if (message != null && message.hasText()) {
             switch(message.getText()){
                 case "/help":
@@ -133,15 +160,15 @@ public class DrinkBot extends TelegramLongPollingBot {
         // Первая строчка клавиатуры
         List<InlineKeyboardButton> keyboardFirstRow = new ArrayList<>();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new InlineKeyboardButton(PRIVET));
-        keyboardFirstRow.add(new InlineKeyboardButton(HOW_ARE_YOU));
+        keyboardFirstRow.add(new InlineKeyboardButton().setText(PRIVET).setCallbackData(PRIVET));
+        keyboardFirstRow.add(new InlineKeyboardButton().setText(HOW_ARE_YOU).setCallbackData(HOW_ARE_YOU));
 
         // Вторая строчка клавиатуры
         List<InlineKeyboardButton> keyboardSecondRow = new ArrayList<>();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new InlineKeyboardButton(WHAT_ARE_YOU_DOING));
-        keyboardSecondRow.add(new InlineKeyboardButton(SHARE_NUMBERS));
-        keyboardSecondRow.add(new InlineKeyboardButton(BYE));
+        keyboardSecondRow.add(new InlineKeyboardButton().setText(WHAT_ARE_YOU_DOING).setCallbackData(WHAT_ARE_YOU_DOING));
+        keyboardSecondRow.add(new InlineKeyboardButton().setText(SHARE_NUMBERS).setCallbackData(SHARE_NUMBERS));
+        keyboardSecondRow.add(new InlineKeyboardButton().setText(BYE).setCallbackData(BYE));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
