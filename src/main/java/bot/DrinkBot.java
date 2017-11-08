@@ -1,18 +1,22 @@
 package bot;
+
+import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Math.toIntExact;
 
 public class DrinkBot extends TelegramLongPollingBot {
 
@@ -52,25 +56,25 @@ public class DrinkBot extends TelegramLongPollingBot {
         if (update != null && update.hasCallbackQuery()) {
             switch(update.getCallbackQuery().getData()){
                 case "/help":
-                    sendMsg(message, "Привет, я робот");
+                    send1Msg(update, "Привет, я робот");
                     break;
                 case PRIVET:
-                    sendMsg(message, "Привет!");
+                    send1Msg(update, "Привет!");
                     break;
                 case HOW_ARE_YOU:
-                    sendMsg(message, "Норм, сам как?");
+                    send1Msg(update, "Норм, сам как?");
                     break;
                 case WHAT_ARE_YOU_DOING:
-                    sendMsg(message, "Ботирую");
+                    send1Msg(update, "Ботирую");
                     break;
                 case SHARE_NUMBERS:
-                    sendMsg(message, "Нет!");
+                    send1Msg(update, "Нет!");
                     break;
                 case BYE:
-                    sendMsg(message, "Пока!");
+                    send1Msg(update, "Пока!");
                     break;
                 default:
-                    sendMsg(message, "Я не знаю что ответить на это");
+                    send1Msg(update, "Я не знаю что ответить на это");
                     break;
             }
         }
@@ -117,6 +121,23 @@ public class DrinkBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    private void send1Msg(Update update, String text) {
+        long message_id = update.getCallbackQuery().getMessage().getMessageId();
+        long chat_id = update.getCallbackQuery().getMessage().getChatId();
+
+            String answer = "Updated message text";
+            EditMessageText new_message = new EditMessageText()
+                    .setChatId(chat_id)
+                    .setMessageId(toIntExact(message_id))
+                    .setText(answer);
+        try {
+            execute(new_message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void addKeyBoard(SendMessage sendMessage) {
