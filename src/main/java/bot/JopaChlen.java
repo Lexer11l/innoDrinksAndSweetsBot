@@ -19,12 +19,12 @@ public class JopaChlen extends TelegramLongPollingBot {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         System.out.println("HEROKU!");
 
-        //try {
-			//telegramBotsApi.registerBot(new JopaChlen());
-        //} catch (TelegramApiException e) {
-          //  e.printStackTrace();
-        //}
-        //System.out.println("V");
+        try {
+			telegramBotsApi.registerBot(new JopaChlen());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        System.out.println("V");
     }
 
     @Override
