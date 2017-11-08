@@ -127,11 +127,12 @@ public class DrinkBot extends TelegramLongPollingBot {
         long message_id = update.getCallbackQuery().getMessage().getMessageId();
         long chat_id = update.getCallbackQuery().getMessage().getChatId();
 
-            String answer = "Updated message text";
+            String answer = text;
             EditMessageText new_message = new EditMessageText()
                     .setChatId(chat_id)
                     .setMessageId(toIntExact(message_id))
                     .setText(answer);
+
         try {
             execute(new_message);
         } catch (TelegramApiException e) {
