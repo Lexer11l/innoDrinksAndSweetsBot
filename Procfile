@@ -1,1 +1,1 @@
-web: java -jar -Dserver.port=$PORT target/telbot-1.0-SNAPSHOT-jar-with-dependencies.jar
+web: java -Dserver.port=$PORT -jar  target/telbot-1.0-SNAPSHOT-jar-with-dependencies.jar
