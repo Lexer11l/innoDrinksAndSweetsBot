@@ -57,7 +57,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>bot.JopaChlen</mainClass>
+                            <mainClass>bot.DrinkBot</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
