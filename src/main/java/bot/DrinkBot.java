@@ -136,7 +136,10 @@ public class DrinkBot extends TelegramLongPollingBot {
                     .setChatId(chat_id)
                     .setMessageId(toIntExact(message_id))
                     .setText(text);
+        new_message.enableMarkdown(true);
+
         addInlineKeyBoard(new_message);
+
         try {
             execute(new_message);
         } catch (TelegramApiException e) {
@@ -195,6 +198,9 @@ public class DrinkBot extends TelegramLongPollingBot {
         keyboardSecondRow.add(new InlineKeyboardButton().setText(WHAT_ARE_YOU_DOING).setCallbackData(WHAT_ARE_YOU_DOING));
         keyboardSecondRow.add(new InlineKeyboardButton().setText(SHARE_NUMBERS).setCallbackData(SHARE_NUMBERS));
         keyboardSecondRow.add(new InlineKeyboardButton().setText(BYE).setCallbackData(BYE));
+        List<InlineKeyboardButton> keyboardThirdRow = new ArrayList<>();
+        // Добавляем кнопки во вторую строчку клавиатуры
+        keyboardSecondRow.add(new InlineKeyboardButton().setText(BABKI).setCallbackData(BABKI));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
