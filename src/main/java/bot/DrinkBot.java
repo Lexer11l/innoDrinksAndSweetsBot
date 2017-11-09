@@ -4,6 +4,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -20,11 +21,12 @@ import static java.lang.Math.toIntExact;
 
 public class DrinkBot extends TelegramLongPollingBot {
 
-    public static final String PRIVET = "Привет";
-    public static final String HOW_ARE_YOU = "Как дела?";
-    public static final String WHAT_ARE_YOU_DOING = "Чё делаешь?";
-    public static final String SHARE_NUMBERS = "Скинь цифры";
-    public static final String BYE = "Пока";
+    private static final String PRIVET = "Привет";
+    private static final String HOW_ARE_YOU = "Как дела?";
+    private static final String WHAT_ARE_YOU_DOING = "Чё делаешь?";
+    private static final String SHARE_NUMBERS = "Скинь цифры";
+    private static final String BYE = "Пока";
+    private static final String BABKI = "Чё с деньгами?";
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
@@ -52,29 +54,32 @@ public class DrinkBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
-
-        if (update != null && update.hasCallbackQuery()) {
+        CallbackQuery query = update.getCallbackQuery();
+        if ( query != null && update.hasCallbackQuery()) {
             switch(update.getCallbackQuery().getData()){
                 case "/help":
-                    send1Msg(update, "Привет, я робот");
+                    sendMsgWithInlineKeyBoard(query, "Привет, я робот");
                     break;
                 case PRIVET:
-                    send1Msg(update, "Привет!");
+                    sendMsgWithInlineKeyBoard(query, "Привет!");
                     break;
                 case HOW_ARE_YOU:
-                    send1Msg(update, "Норм, сам как?");
+                    sendMsgWithInlineKeyBoard(query, "Норм, сам как?");
                     break;
                 case WHAT_ARE_YOU_DOING:
-                    send1Msg(update, "Ботирую");
+                    sendMsgWithInlineKeyBoard(query, "Ботирую");
                     break;
                 case SHARE_NUMBERS:
-                    send1Msg(update, "Нет!");
+                    sendMsgWithInlineKeyBoard(query, "Нет!");
                     break;
                 case BYE:
-                    send1Msg(update, "Пока!");
+                    sendMsgWithInlineKeyBoard(query, "Пока!");
+                    break;
+                case BABKI:
+                    sendMsgWithInlineKeyBoard(query, "С какими деньгами?");
                     break;
                 default:
-                    send1Msg(update, "Я не знаю что ответить на это");
+                    sendMsgWithInlineKeyBoard(query, "Я не знаю что ответить на это");
                     break;
             }
         }
@@ -110,7 +115,7 @@ public class DrinkBot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
 
-        addInlineKeyBoard(sendMessage);
+        addKeyBoard(sendMessage);
 
         sendMessage.setChatId(message.getChatId().toString());
         //чтобы ответить на предыдущее сообщение:
@@ -123,16 +128,15 @@ public class DrinkBot extends TelegramLongPollingBot {
         }
     }
 
-    private void send1Msg(Update update, String text) {
-        long message_id = update.getCallbackQuery().getMessage().getMessageId();
-        long chat_id = update.getCallbackQuery().getMessage().getChatId();
+    private void sendMsgWithInlineKeyBoard(CallbackQuery query, String text) {
+        long message_id = query.getMessage().getMessageId();
+        long chat_id = query.getMessage().getChatId();
 
-            String answer = text;
-            EditMessageText new_message = new EditMessageText()
+        EditMessageText new_message = new EditMessageText()
                     .setChatId(chat_id)
                     .setMessageId(toIntExact(message_id))
-                    .setText(answer);
-
+                    .setText(text);
+        addInlineKeyBoard(new_message);
         try {
             execute(new_message);
         } catch (TelegramApiException e) {
@@ -155,14 +159,14 @@ public class DrinkBot extends TelegramLongPollingBot {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add("Комманда 1");
-        keyboardFirstRow.add("Комманда 2");
+        keyboardFirstRow.add("Команда 1");
+        keyboardFirstRow.add("Команда 2");
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add("Комманда 3");
-        keyboardSecondRow.add("Комманда 4");
+        keyboardSecondRow.add("Команда 3");
+        keyboardSecondRow.add("Команда 4");
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -171,7 +175,7 @@ public class DrinkBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    private void addInlineKeyBoard(SendMessage sendMessage) {
+    private void addInlineKeyBoard(EditMessageText sendMessage) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
