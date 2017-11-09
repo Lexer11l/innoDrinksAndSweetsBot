@@ -102,7 +102,7 @@ public class DrinkBot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
 
-        addKeyBoard(sendMessage);
+        addInlineKeyBoard(sendMessage);
 
         sendMessage.setChatId(message.getChatId().toString());
         //чтобы ответить на предыдущее сообщение:
@@ -124,8 +124,6 @@ public class DrinkBot extends TelegramLongPollingBot {
                     .setMessageId(toIntExact(message_id))
                     .setText(text);
         new_message.enableMarkdown(true);
-
-        addInlineKeyBoard(new_message);
 
         try {
             execute(new_message);
@@ -165,7 +163,7 @@ public class DrinkBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    private void addInlineKeyBoard(EditMessageText sendMessage) {
+    private void addInlineKeyBoard(SendMessage sendMessage) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
