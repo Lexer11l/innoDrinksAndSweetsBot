@@ -109,7 +109,7 @@ public class DrinkBot extends TelegramLongPollingBot {
         // sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(text);
         try {
-            execute(sendMessage);
+            sendMessage(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -123,8 +123,6 @@ public class DrinkBot extends TelegramLongPollingBot {
                     .setChatId(chat_id)
                     .setMessageId(toIntExact(message_id))
                     .setText(text);
-        new_message.enableMarkdown(true);
-
         try {
             execute(new_message);
         } catch (TelegramApiException e) {
