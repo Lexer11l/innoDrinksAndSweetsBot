@@ -62,7 +62,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>bot.DrinkBot</mainClass>
+                            <mainClass>bot.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

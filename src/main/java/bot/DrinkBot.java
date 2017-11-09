@@ -1,7 +1,5 @@
 package bot;
 
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
@@ -28,18 +26,7 @@ public class DrinkBot extends TelegramLongPollingBot {
     private static final String BYE = "Пока";
     private static final String BABKI = "Чё с деньгами?";
 
-    public static void main(String[] args) {
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        System.out.println("HEROKU!");
 
-        try {
-			telegramBotsApi.registerBot(new DrinkBot());
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-        System.out.println("V");
-    }
 
     @Override
     public String getBotUsername() {
@@ -122,7 +109,7 @@ public class DrinkBot extends TelegramLongPollingBot {
         // sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(text);
         try {
-            sendMessage(sendMessage);
+            execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
